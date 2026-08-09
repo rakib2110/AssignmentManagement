@@ -1,0 +1,3 @@
+﻿ 
+ 
+ Scaffold-DbContext "Host=localhost;Port=5432;Database=AssignmentManagementDB;Username=postgres;Password=w23eW@#E" Npgsql.EntityFrameworkCore.PostgreSQL -OutputDir Models -Context AssignmentManagementDbContext -DataAnnotations -Force
