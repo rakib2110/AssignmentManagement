@@ -32,7 +32,7 @@ namespace AssignmentManagement.Controllers
         }
         [HttpPost]
         [Route("Create User")]
-        public async Task<IActionResult> Register([FromBody] UsersDto usersDto)
+        public async Task<IActionResult> Register([FromForm] UsersDto usersDto)
         {
             try
             {

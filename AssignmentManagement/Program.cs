@@ -3,6 +3,7 @@ using AssignmentManagement.IRepository;
 using AssignmentManagement.Models;
 using AssignmentManagement.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -52,7 +53,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 builder.Services.AddAuthorization();
-builder.Services.AddScoped<IUserRepository,UserRepository>();
+
+// Password hashing
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+// Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // CORS Configuration
 builder.Services.AddCors(options =>
@@ -60,7 +66,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://127.0.0.1:5500")
+            policy.WithOrigins(
+                "http://localhost:5173",
+                "http://127.0.0.1:5173"
+            )
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
