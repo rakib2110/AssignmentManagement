@@ -48,6 +48,9 @@ public partial class User
     [Column("updatedat", TypeName = "timestamp without time zone")]
     public DateTime? Updatedat { get; set; }
 
+    [InverseProperty("User")]
+    public virtual ICollection<EmailVerificationToken> EmailVerificationTokens { get; set; } = new List<EmailVerificationToken>();
+
     [ForeignKey("Roleid")]
     [InverseProperty("Users")]
     public virtual Role Role { get; set; } = null!;

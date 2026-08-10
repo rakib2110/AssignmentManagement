@@ -57,8 +57,14 @@ builder.Services.AddAuthorization();
 // Password hashing
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
+//Email Setting
+builder.Services.Configure<EmailSetting>(
+    builder.Configuration.GetSection("EmailSettings")
+);
+
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // CORS Configuration
 builder.Services.AddCors(options =>

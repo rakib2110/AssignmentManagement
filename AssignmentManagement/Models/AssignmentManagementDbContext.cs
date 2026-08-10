@@ -23,6 +23,10 @@ public partial class AssignmentManagementDbContext : DbContext
 
     public virtual DbSet<Class> Classes { get; set; }
 
+    public virtual DbSet<EmailSetting> EmailSettings { get; set; }
+
+    public virtual DbSet<EmailVerificationToken> EmailVerificationTokens { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Studentenrollment> Studentenrollments { get; set; }
@@ -83,6 +87,24 @@ public partial class AssignmentManagementDbContext : DbContext
         modelBuilder.Entity<Class>(entity =>
         {
             entity.HasKey(e => e.Classid).HasName("classes_pkey");
+        });
+
+        modelBuilder.Entity<EmailSetting>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("EmailSettings_pkey");
+
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+        });
+
+        modelBuilder.Entity<EmailVerificationToken>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("email_verification_tokens_pkey");
+
+            entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()");
+            entity.Property(e => e.Createdat).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.Isused).HasDefaultValue(false);
+
+            entity.HasOne(d => d.User).WithMany(p => p.EmailVerificationTokens).HasConstraintName("fk_email_verification_user");
         });
 
         modelBuilder.Entity<Role>(entity =>
