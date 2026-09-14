@@ -2,6 +2,7 @@
 using AssignmentManagement.IRepository;
 using AssignmentManagement.Models;
 using AssignmentManagement.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -112,8 +113,7 @@ namespace AssignmentManagement.Controllers
         {
             // Login user
 
-            var user =
-                await _userRepository.UserLogin(loginDto);
+            var user =await _userRepository.UserLogin(loginDto);
 
             // Login failed
 
@@ -249,6 +249,18 @@ namespace AssignmentManagement.Controllers
             return new JwtSecurityTokenHandler()
                 .WriteToken(jwtToken);
         }
+
+        [HttpPost]
+        [Route("Logout")]
+        [Authorize]
+        public IActionResult Logout()
+        {
+            return Ok(new
+            {
+                message = "Logout successful."
+            });
+        }
+
 
         [HttpGet]
         [Route("GetAllUser")]
